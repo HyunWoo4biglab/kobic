@@ -1,0 +1,8 @@
+etching_path='/home/hyunwoo/programs/etching/ETCHING_v1.4.2_release_20230421/bin/etching'
+delly_path = ''
+lumpy_path = ''
+reference_genome = '/home/hyunwoo/data_set/genome/hg38/GRCh38.p14/GRCh38.p14.filtered.fna'
+kmc_path = '/home/hyunwoo/programs/kmc/bin/kmc'
+kmc_tools_path ='/home/hyunwoo/programs/kmc/bin/kmc_tools'
+pgk_path = '/home/hyunwoo/data_set/project/svPorject/etching/PGK2/PGK2'
+sickle_path = '/share/apps/programs/sickle/1.33/sickle'
