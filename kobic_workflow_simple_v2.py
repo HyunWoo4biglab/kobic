@@ -92,7 +92,6 @@ def make_command(path_dict, interval, output, threads=30):
                 relation, path = path_dict[family][sample]
                 if not path.endswith('/'):
                     path += '/'
-                #files = get_files(path, 'untrim')
                 files = get_files_by_id(sample, path)
                 files.sort()
                 trim_files = list(map(lambda x: trim_dir + re.sub('f.*q.gz', 'trim.fastq.gz', x), files))
@@ -113,7 +112,12 @@ def make_command(path_dict, interval, output, threads=30):
                     parentfile_list.extend(trim_files)
                 else:
                     etching_prefix = f'{family}_sample_{sample}'
-                    etching_cmd = f'{etching} -1 {trim_files[0]} -2 {trim_files[1]} -g {genome} -f {pgkp_db} -t {threads} --keep-kmc -o {etching_prefix} --output-dir {etching_dir} --work-dir {etching_dir}'
+                    etching_output_dir = etching_dir + etching_prefix + '/'
+                    ####### updated for kobic 2nd visit ##############
+                    if not os.path.exists(etching_output_dir):
+                        os.makedirs(etching_output_dir)
+                    etching_cmd = f'{etching} -1 {trim_files[0]} -2 {trim_files[1]} -g {genome} -f {pgkp_db} -t {threads} --keep-kmc -o {etching_prefix} --output-dir {etching_output_dir} --work-dir {etching_output_dir}'
+                    #################################
                     etching_cmd_list.append(etching_cmd)
                 if j == len(path_dict[family]) -1: # the last person in the quartet
                     parentfile_list = list(filter(lambda x : not 'single.trim' in x, parentfile_list))
