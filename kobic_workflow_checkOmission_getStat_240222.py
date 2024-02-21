@@ -64,7 +64,7 @@ def check_omit_make_command(path_dict, output, result, threads=30):
     family_list = sorted(path_dict.keys())
     print(family_list)
     with open(outputfile, 'w') as outfile:
-        outfile.write(f'printf "Total\\tDEL\\tDUP\\tINV\\tBND\\n" >> {result}\n')
+        outfile.write(f'printf "Sample\\tTotal\\tDEL\\tDUP\\tINV\\tBND\\n" >> {result}\n')
         for family in family_list:
 
             family_dir = working_dir + family + '/'
@@ -126,7 +126,7 @@ def check_omit_make_command(path_dict, output, result, threads=30):
 
                     for s in etching_cmd_d:
                         if etching_cmd_d[s]['exist']:
-                            get_result(f'{etching_dir}{etching_check_file}', outfile, result)
+                            get_result(f'{etching_check_file}', sample, outfile, result)
                             outfile.write(f'mv {etching_dir}{etching_prefix}.* {etching_output_dir}\n')
                         else:
                             outfile.write(f'{etching_cmd_d[s]["cmd"]}\n')
@@ -179,14 +179,15 @@ def check_omit_make_command(path_dict, output, result, threads=30):
 #    else:
         
 
-def get_result(inputfile, outfile, result):
+def get_result(inputfile, sample, outfile, result):
 
     outfile.write(f'total=$(grep -v \'^#\' {inputfile} -c)\n')
     outfile.write(f'del=$(grep -v \'^#\' {inputfile} | grep \'SVTYPE=DEL\' -c)\n')
     outfile.write(f'dup=$(grep -v \'^#\' {inputfile} | grep \'SVTYPE=DUP\' -c)\n')
     outfile.write(f'inv=$(grep -v \'^#\' {inputfile} | grep \'SVTYPE=INV\' -c)\n')
     outfile.write(f'bnd=$(grep -v \'^#\' {inputfile} | grep \'SVTYPE=BND\' -c)\n')
-    outfile.write('printf "${total}\\t${del}\\t${dup}\\t${inv}\\t${bnd}\\n" >> ')
+    outfile.write(f'printf "{sample}\\t')
+    outfile.write('${total}\\t${del}\\t${dup}\\t${inv}\\t${bnd}\\n" >> ')
     outfile.write(f'{result}\n')
 
     return None
