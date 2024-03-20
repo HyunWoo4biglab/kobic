@@ -19,14 +19,15 @@ def get_variants(vcf, caller, trio=False):
     variants = dict(); genotype = dict(); bps= dict()
     with open(vcf, 'r') as infile:
         lines = [variant for variant in infile if not variant.startswith('#')]
-        #sample_ids = header.split('\t')[-3:] for header in infile if header.startswith('#CHROM')
-        #col = [variant.split('\t') for variant in infile if not variant.startswith('#')]
 
         for line in lines:
             col = line.strip().split('\t')
             contig = col[0];
+            if not contig.startswith('chr'):
+                contig = 'chr' + contig
             #record_match = re.search('(chr[\dXY]+):(\d+)[\[\]]', col[4])
-            record_match = re.search('(chr.+):(\d+)[\[\]]', col[4])
+            record_match = re.search('[\[\]]([a-zA-Z]+.+):(\d+)[\[\]]', col[4])
+            #record_match = re.search('(chr.+):(\d+)[\[\]]', col[4])
             if record_match:
                 mate_contig = record_match.group(1)
             else:
