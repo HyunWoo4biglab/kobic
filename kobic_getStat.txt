@@ -1,3 +1,0 @@
-Sample	Total	DEL	DUP	INV	BND
-1002292727	43	3	9	1	30
-Sample	Total	DEL	DUP	INV	BND
